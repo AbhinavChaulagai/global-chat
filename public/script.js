@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('https://global-chat-jp3k.onrender.com');
 
 document.getElementById('chatForm').addEventListener('submit', function(e) {
   e.preventDefault();
