@@ -5,12 +5,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const messageInput = document.getElementById('messageInput');
   const messages = document.getElementById('messages');
 
+  // Ensure that elements exist before proceeding
   if (chatForm && messageInput && messages) {
     chatForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const message = messageInput.value;
-      socket.emit('chat message', message);
-      messageInput.value = '';
+
+      // Check if the message is not empty before emitting
+      if (message.trim() !== "") {
+        socket.emit('chat message', message);
+        messageInput.value = '';
+      }
     });
 
     socket.on('chat message', (msg) => {
