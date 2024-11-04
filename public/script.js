@@ -1,14 +1,24 @@
-const socket = io('https://global-chat-jp3k.onrender.com');
+document.addEventListener('DOMContentLoaded', function() {
+  const socket = io('https://global-chat-jp3k.onrender.com');
 
-document.getElementById('chatForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const message = document.getElementById('messageInput').value;
-  socket.emit('chat message', message);
-  document.getElementById('messageInput').value = '';
-});
+  const chatForm = document.getElementById('chatForm');
+  const messageInput = document.getElementById('messageInput');
+  const messages = document.getElementById('messages');
 
-socket.on('chat message', (msg) => {
-  const item = document.createElement('li');
-  item.textContent = msg;
-  document.getElementById('messages').appendChild(item);
+  if (chatForm && messageInput && messages) {
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const message = messageInput.value;
+      socket.emit('chat message', message);
+      messageInput.value = '';
+    });
+
+    socket.on('chat message', (msg) => {
+      const item = document.createElement('li');
+      item.textContent = msg;
+      messages.appendChild(item);
+    });
+  } else {
+    console.error("One or more elements (chatForm, messageInput, messages) are missing in the DOM.");
+  }
 });
